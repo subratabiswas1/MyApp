@@ -4,8 +4,6 @@ import MyBarChart from "./MyBarChart";
 import styles from "../styles/styles";
 
 const Dashboard = ({route,dark,navigation}) => {
-  const { user1, user2, user3, user4, user5 } = route.params;
-  const info = [user1, user2, user3, user4, user5];
   return (
     <SafeAreaView
       style={{
@@ -16,13 +14,13 @@ const Dashboard = ({route,dark,navigation}) => {
     >
       <ScrollView>
         <View style={styles.chartContainer}>
-          <MyBarChart info={info} dark={dark} />
+          <MyBarChart info={route.params} dark={dark} />
         </View>
         <View style={{ marginHorizontal: 10 }}>
           <Button
-            title="Edit the form"
+            title="Go back"
             color={dark ? "#283f6b" : null}
-            onPress={() => navigation.navigate("Fill in the Form")}
+            onPress={() => navigation.navigate("Data Entry")}
           />
         </View>
       </ScrollView>

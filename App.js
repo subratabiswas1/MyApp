@@ -32,10 +32,10 @@ const App = () => {
             ),
           }}
         >
-          <Stack.Screen name="Fill in the Form">
+          <Stack.Screen name="Data Entry">
             {(props) => <Form {...props} dark={dark} />}
           </Stack.Screen>
-          <Stack.Screen name="Dashboard">
+          <Stack.Screen name="Data Visualisation">
             {(props) => <Dashboard {...props} dark={dark} />}
           </Stack.Screen>
         </Stack.Navigator>
