@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, SafeAreaView, ScrollView, Button } from "react-native";
-import MyBarChart from "./MyBarChart";
-import styles from "../styles/styles";
+import MyBarChart from "../BarChart/MyBarChart";
+import styles from "../../styles/styles";
+import { AuthContext } from "../context/AuthContext";
 
-const Dashboard = ({route,dark,navigation}) => {
+const Dashboard = ({ route, navigation }) => {
+  const { dark } = useContext(AuthContext);
   return (
     <SafeAreaView
       style={{
@@ -14,7 +16,7 @@ const Dashboard = ({route,dark,navigation}) => {
     >
       <ScrollView>
         <View style={styles.chartContainer}>
-          <MyBarChart info={route.params} dark={dark} />
+          <MyBarChart info={route.params}/>
         </View>
         <View style={{ marginHorizontal: 10 }}>
           <Button

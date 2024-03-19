@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, TextInput, Button, FlatList } from "react-native";
-import styles from "../styles/styles";
+import React, { useState, useContext, useEffect } from "react";
+import { Text, View, TextInput, Button, FlatList, LogBox } from "react-native";
+import styles from "../../styles/styles";
 import uuid from "react-native-uuid";
+import { AuthContext } from "../context/AuthContext";
+import { setInformation } from "../AsyncStorage/AsyncStorage";
+import InfoHeader from "../info/InfoHeader";
+import InfoItem from "../info/InfoItem";
 
-const Form = ({ navigation, dark }) => {
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
+
+const Form = ({ navigation }) => {
+  const { dark, info, setInfo } = useContext(AuthContext);
   const [text, setText] = useState("");
   const [numeric, setNumeric] = useState("");
   const [error, setError] = useState(false);
-  const [info, setInfo] = useState([]);
 
   const addEvent = () => {
     if (text !== "" && numeric !== "") {
       setInfo([...info, { id: uuid.v4(), username: text, expense: numeric }]);
+      setInformation(info);
       setError(false);
     } else {
       setError(true);
@@ -24,7 +33,9 @@ const Form = ({ navigation, dark }) => {
   };
   const generateGraphEvent = () => {
     if (info.length) {
-      navigation.navigate("Data Visualisation", info);
+      navigation.navigate("Data Visualisation");
+    } else {
+      alert("Atleast add one input");
     }
   };
   const boxStyle = [
@@ -40,23 +51,23 @@ const Form = ({ navigation, dark }) => {
   return (
     <View style={[styles.main, { backgroundColor: dark ? "#292929" : null }]}>
       <TextInput
-        placeholder="username"
+        placeholder="subject"
         placeholderTextColor={dark ? "#6b5f62" : "#bdb1b4"}
         style={boxStyle}
         value={text}
         onChangeText={(e) => setText(e)}
       />
       <TextInput
-        placeholder="expense"
+        placeholder="score in this subject"
         placeholderTextColor={dark ? "#6b5f62" : "#bdb1b4"}
         style={boxStyle}
         value={numeric}
         keyboardType="numeric"
         onChangeText={(e) => setNumeric(e)}
       />
-      {error && !(text && numeric) ? (
-        <Text style={{ color: "red" }}>*All fields are required</Text>
-      ) : null}
+      <Text style={{ color: "red", marginLeft: 20 }}>
+        {error && !(text && numeric) ? "*All fields are required" : ""}
+      </Text>
       <View style={styles.btn}>
         <Button
           title="Add"
@@ -66,7 +77,7 @@ const Form = ({ navigation, dark }) => {
       </View>
       <View style={styles.btn}>
         <Button
-          title="Clear"
+          title="Clear "
           color={dark ? "#283f6b" : null}
           onPress={() => clearEvent()}
         />
@@ -78,32 +89,10 @@ const Form = ({ navigation, dark }) => {
           onPress={() => generateGraphEvent()}
         />
       </View>
-      {info.length ? (
-        <View style={styles.headingText}>
-          <Text style={[styles.itemText, {fontWeight:600, textDecorationLine: "underline" ,color:dark ? 'white' : 'black'}]}>
-            Username
-          </Text>
-          <Text style={[styles.itemText, {fontWeight:600, textDecorationLine: "underline" ,color:dark ? 'white' : 'black'}]}>
-            Expense(in $)
-          </Text>
-          <Text style={styles.itemText}></Text>
-        </View>
-      ) : null}
+      {info.length ? <InfoHeader /> : null}
       <FlatList
         data={info}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={[styles.itemText,{color: dark ? 'white' : 'black'}]}>{item.username}</Text>
-            <Text style={[styles.itemText,{color: dark ? 'white' : 'black'}]}>{item.expense}</Text>
-            <View style={{ flex: 1 }}>
-              <Button
-                title="delete"
-                color={dark ? "#5c202d" : 'red'}
-                onPress={() => setInfo(info.filter((a) => a.id !== item.id))}
-              />
-            </View>
-          </View>
-        )}
+        renderItem={({ item }) => <InfoItem item={item} />}
         keyExtractor={(item) => item.id}
       />
     </View>

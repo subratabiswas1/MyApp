@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Text, View, Dimensions } from "react-native";
 import { BarChart } from "react-native-chart-kit";
-import styles from "../styles/styles";
+import { AuthContext } from "../context/AuthContext";
+import styles from "../../styles/styles";
 
-const MyBarChart = ({ info, dark }) => {
-  const labels = info.map(a => a.username);
-  const data = info.map(a => a.expense);
+const MyBarChart = () => {
+  const { dark, info } = useContext(AuthContext);
+  const labels = info.map((a) => a.username);
+  const data = info.map((a) => a.expense);
   const dataSet = {
     labels: labels,
     datasets: [
@@ -14,6 +16,7 @@ const MyBarChart = ({ info, dark }) => {
       },
     ],
   };
+
   const chartConfig = {
     backgroundColor: dark ? "#292929" : "white",
     backgroundGradientFrom: dark ? "#292929" : "white",
@@ -36,8 +39,8 @@ const MyBarChart = ({ info, dark }) => {
         height={400}
         yAxisLabel="$"
         chartConfig={chartConfig}
-        style={[styles.graphStyle]}
-        verticalLabelRotation={2*info.length}
+        style={styles.graphStyle}
+        verticalLabelRotation={2 * info.length}
       />
     </View>
   );

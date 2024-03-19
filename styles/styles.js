@@ -4,8 +4,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     justifyContent: "center",
-    paddingTop:50,
-
+    paddingTop: 50,
   },
   heading: {
     fontSize: 25,
@@ -15,7 +14,7 @@ const styles = StyleSheet.create({
   },
   inputBox: {
     borderBottomWidth: 1,
-    elevation:1,
+    elevation: 1,
     textAlign: "center",
     fontSize: 25,
     fontWeight: "100",
@@ -29,19 +28,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     margin: 10,
-    marginHorizontal:20,
+    marginHorizontal: 20,
   },
   item: {
     flex: 1,
     flexDirection: "row",
     margin: 10,
-    alignItems: "center",
+    alignItems: "stretch",
     marginHorizontal: 20,
   },
   itemText: {
-    flex:1,
+    flex: 1,
     fontSize: 20,
-    alignItems: "center",
+    textAlign: "center",
+    margin:5,
   },
   chartContainer: {
     flex: 1,
